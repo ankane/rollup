@@ -1,4 +1,4 @@
-dist: bionic
+dist: focal
 language: ruby
 jobs:
   include:
@@ -11,8 +11,6 @@ jobs:
 services:
   - postgresql
   - mysql
-addons:
-  postgresql: 10
 script: bundle exec rake test
 before_install:
   - mysqladmin create rollup_test

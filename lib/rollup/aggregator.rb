@@ -35,12 +35,14 @@ class Rollup
     def perform_group(name, column:, interval:, time_zone:, current:, last:, clear:)
       raise ArgumentError, "Cannot use last and clear together" if last && clear
 
+      time_zone ||= Rollup.time_zone
+
       gd_options = {
         current: current
       }
 
       # make sure Groupdate global options aren't applied
-      gd_options[:time_zone] = time_zone || Rollup.time_zone
+      gd_options[:time_zone] = time_zone
       gd_options[:week_start] = Rollup.week_start if interval.to_s == "week"
       gd_options[:day_start] = 0 if Utils.date_interval?(interval)
 
@@ -51,6 +53,12 @@ class Rollup
         # if rollups, recompute last interval
         max_time = Rollup.where(name: name, interval: interval).maximum(Utils.time_sql(interval))
         if max_time
+          # for MySQL on Ubuntu 18.04 (and likely other platforms)
+          if max_time.is_a?(String)
+            utc = ActiveSupport::TimeZone["Etc/UTC"]
+            max_time = Utils.date_interval?(interval) ? max_time.to_date : utc.parse(max_time).in_time_zone(time_zone)
+          end
+
           # aligns perfectly if time zone doesn't change
           # if time zone does change, there are other problems besides this
           gd_options[:range] = max_time..
