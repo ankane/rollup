@@ -4,6 +4,8 @@
 
 Works great with [Ahoy](https://github.com/ankane/ahoy) and [Searchjoy](https://github.com/ankane/searchjoy)
 
+[![Build Status](https://travis-ci.org/ankane/rollup.svg?branch=master)](https://travis-ci.org/ankane/rollup)
+
 ## Installation
 
 Add this line to your application’s Gemfile:

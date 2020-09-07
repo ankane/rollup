@@ -1,0 +1,24 @@
+dist: bionic
+language: ruby
+jobs:
+  include:
+    - rvm: 2.7
+      gemfile: Gemfile
+    - rvm: 2.6
+      gemfile: test/gemfiles/activerecord52.gemfile
+    - rvm: 2.6
+      gemfile: test/gemfiles/activerecord51.gemfile
+services:
+  - postgresql
+  - mysql
+addons:
+  postgresql: 10
+script: bundle exec rake test
+before_install:
+  - mysqladmin create rollup_test
+  - mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
+  - createdb rollup_test
+notifications:
+  email:
+    on_success: never
+    on_failure: change
