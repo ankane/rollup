@@ -1,4 +1,4 @@
-## 0.1.1 (2020-09-07)
+## 0.1.1 (unreleased)
 
 - Fixed results for earlier versions of MySQL
 
