@@ -40,6 +40,32 @@ class CalculationTest < Minitest::Test
     assert_equal expected, Rollup.series("Test")
   end
 
+  def test_minimum
+    User.create!(created_at: now - 2.days, visits: 1)
+    User.create!(created_at: now, visits: 2)
+    User.create!(created_at: now, visits: 3)
+    User.rollup("Test") { |r| r.minimum(:visits) }
+    expected = {
+      now.to_date - 2 => 1,
+      now.to_date - 1 => nil,
+      now.to_date => 2
+    }
+    assert_equal expected, Rollup.series("Test")
+  end
+
+  def test_maximum
+    User.create!(created_at: now - 2.days, visits: 1)
+    User.create!(created_at: now, visits: 2)
+    User.create!(created_at: now, visits: 3)
+    User.rollup("Test") { |r| r.maximum(:visits) }
+    expected = {
+      now.to_date - 2 => 1,
+      now.to_date - 1 => nil,
+      now.to_date => 3
+    }
+    assert_equal expected, Rollup.series("Test")
+  end
+
   def test_bad_type
     error = assert_raises do
       User.rollup("Test") { Object.new }
