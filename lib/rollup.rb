@@ -75,10 +75,7 @@ class Rollup < ActiveRecord::Base
   # feels cleaner than overriding _read_attribute
   def inspect
     if Utils.date_interval?(interval)
-      previous_time = time_before_type_cast
-      previous_time = previous_time.to_s(:db) if previous_time.is_a?(Time)
-      previous_time = previous_time + " 00:00:00" if previous_time.length == 10
-      super.sub("time: \"#{previous_time}\"", "time: \"#{time.to_s(:db)}\"")
+      super.sub(/time: "[^"]+"/, "time: \"#{time.to_s(:db)}\"")
     else
       super
     end
