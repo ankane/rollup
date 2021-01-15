@@ -12,7 +12,7 @@ class RollupsGenerator < Rails::Generators::Base
   end
 
   def migration_source
-    case ActiveRecord::Base.connection_config[:adapter].to_s
+    case adapter
     when /postg/i
       "dimensions.rb"
     else
@@ -22,5 +22,13 @@ class RollupsGenerator < Rails::Generators::Base
 
   def migration_version
     "[#{ActiveRecord::VERSION::MAJOR}.#{ActiveRecord::VERSION::MINOR}]"
+  end
+
+  def adapter
+    if ActiveRecord::VERSION::STRING.to_f >= 6.1
+      ActiveRecord::Base.connection_db_config.adapter.to_s
+    else
+      ActiveRecord::Base.connection_config[:adapter].to_s
+    end
   end
 end
