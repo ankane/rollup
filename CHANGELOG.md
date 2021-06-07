@@ -1,4 +1,4 @@
-## 0.1.2 (unreleased)
+## 0.1.2 (2021-06-07)
 
 - Fixed deprecation warning with Active Record 6.1
 
