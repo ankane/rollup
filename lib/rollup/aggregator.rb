@@ -51,7 +51,7 @@ class Rollup
       elsif !clear
         # if no rollups, compute all intervals
         # if rollups, recompute last interval
-        max_time = Rollup.where(name: name, interval: interval).maximum(Utils.time_sql(interval))
+        max_time = Rollup.unscoped.where(name: name, interval: interval).maximum(Utils.time_sql(interval))
         if max_time
           # for MySQL on Ubuntu 18.04 (and likely other platforms)
           if max_time.is_a?(String)
@@ -157,7 +157,7 @@ class Rollup
     def maybe_clear(clear, name, interval)
       if clear
         Rollup.transaction do
-          Rollup.where(name: name, interval: interval).delete_all
+          Rollup.unscoped.where(name: name, interval: interval).delete_all
           yield
         end
       else
@@ -173,10 +173,10 @@ class Rollup
 
       if ActiveRecord::VERSION::MAJOR >= 6
         options = Utils.mysql? ? {} : {unique_by: conflict_target}
-        Rollup.upsert_all(records, **options)
+        Rollup.unscoped.upsert_all(records, **options)
       else
         update = Utils.mysql? ? [:value] : {columns: [:value], conflict_target: conflict_target}
-        Rollup.import(records,
+        Rollup.unscoped.import(records,
           on_duplicate_key_update: update,
           validate: false
         )

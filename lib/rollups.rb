@@ -8,6 +8,7 @@ ActiveSupport.on_load(:active_record) do
 
   require "rollup/model"
   extend Rollup::Model
+  Rollup.rollup_column = :time
 
   # modules
   require "rollup/aggregator"

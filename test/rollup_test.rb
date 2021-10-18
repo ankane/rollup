@@ -41,4 +41,11 @@ class RollupTest < Minitest::Test
     User.rollup("Test")
     assert_match "'#{now.to_date}'", $sql.find { |s| s =~ /ON (CONFLICT|DUPLICATE KEY)/i }
   end
+
+  def test_rollup_rollup
+    User.create!
+    User.rollup("Test")
+    Rollup.where(name: "Test", interval: "day").rollup("New", interval: "month", time_zone: false)
+    refute_empty Rollup.series("New", interval: "month")
+  end
 end

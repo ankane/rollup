@@ -1,3 +1,7 @@
+## 0.1.3 (unreleased)
+
+- Fixed issue rolling up rollups
+
 ## 0.1.2 (2021-06-07)
 
 - Fixed deprecation warning with Active Record 6.1
