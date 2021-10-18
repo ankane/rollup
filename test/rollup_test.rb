@@ -45,7 +45,8 @@ class RollupTest < Minitest::Test
   def test_rollup_rollup
     User.create!
     User.rollup("Test")
+    User.rollup("Other")
     Rollup.where(name: "Test", interval: "day").rollup("New", interval: "month", time_zone: false)
-    refute_empty Rollup.series("New", interval: "month")
+    assert_equal 1, Rollup.series("New", interval: "month").values[0]
   end
 end
