@@ -1,4 +1,4 @@
-## 0.1.3 (unreleased)
+## 0.1.3 (2021-10-20)
 
 - Fixed issue rolling up rollups
 
