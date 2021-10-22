@@ -4,13 +4,13 @@ class Rollup
       @klass = klass # or relation
     end
 
-    def rollup(name, column: nil, interval: "day", dimension_names: nil, time_zone: nil, current: true, last: nil, clear: false, &block)
+    def rollup(name, column: nil, interval: "day", dimension_names: nil, time_zone: nil, current: true, last: nil, clear: false, update: false, &block)
       raise "Name can't be blank" if name.blank?
 
       column ||= @klass.rollup_column || :created_at
       validate_column(column)
 
-      relation = perform_group(name, column: column, interval: interval, time_zone: time_zone, current: current, last: last, clear: clear)
+      relation = perform_group(name, column: column, interval: interval, time_zone: time_zone, current: current, last: last, clear: clear, update: update)
       result = perform_calculation(relation, &block)
 
       dimension_names = set_dimension_names(dimension_names, relation)
@@ -32,8 +32,9 @@ class Rollup
       end
     end
 
-    def perform_group(name, column:, interval:, time_zone:, current:, last:, clear:)
+    def perform_group(name, column:, interval:, time_zone:, current:, last:, clear:, update:)
       raise ArgumentError, "Cannot use last and clear together" if last && clear
+      raise ArgumentError, "Cannot use update and clear together" if update && clear
 
       time_zone ||= Rollup.time_zone
 
@@ -48,6 +49,9 @@ class Rollup
 
       if last
         gd_options[:last] = last
+      elsif update
+        # Do nothing, just process all possible rollups and update them
+        # if changed.
       elsif !clear
         # if no rollups, compute all intervals
         # if rollups, recompute last interval
