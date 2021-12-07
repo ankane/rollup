@@ -75,7 +75,7 @@ class Rollup < ActiveRecord::Base
   # feels cleaner than overriding _read_attribute
   def inspect
     if Utils.date_interval?(interval)
-      super.sub(/time: "[^"]+"/, "time: \"#{time.to_s(:db)}\"")
+      super.sub(/time: "[^"]+"/, "time: \"#{time.to_formatted_s(:db)}\"")
     else
       super
     end

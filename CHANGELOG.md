@@ -1,3 +1,7 @@
+## 0.1.4 (unreleased)
+
+- Fixed warning with Active Record 7
+
 ## 0.1.3 (2021-10-20)
 
 - Fixed issue rolling up rollups
