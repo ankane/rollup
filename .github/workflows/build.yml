@@ -9,6 +9,8 @@ jobs:
         include:
         - ruby: 3.0
           gemfile: Gemfile
+        - ruby: 3.0
+          gemfile: gemfiles/activerecord70.gemfile
         - ruby: 2.7
           gemfile: gemfiles/activerecord60.gemfile
         - ruby: 2.6
@@ -25,9 +27,11 @@ jobs:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
     - uses: ankane/setup-postgres@v1
+      with:
+        database: rollup_test
     - uses: ankane/setup-mysql@v1
+      with:
+        database: rollup_test
     - run: |
-        mysqladmin create rollup_test
         mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
-        createdb rollup_test
     - run: bundle exec rake test
