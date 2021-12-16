@@ -1,4 +1,4 @@
-## 0.1.4 (unreleased)
+## 0.1.4 (2021-12-15)
 
 - Fixed warning with Active Record 7
 
