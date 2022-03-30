@@ -4,7 +4,7 @@ class Rollup
       @klass = klass # or relation
     end
 
-    def rollup(name, column: nil, interval: "day", dimension_names: nil, time_zone: nil, current: true, last: nil, clear: false, &block)
+    def rollup(name, column: nil, interval: "day", dimension_names: nil, time_zone: nil, current: true, last: nil, clear: false, max_time: nil, &block)
       raise "Name can't be blank" if name.blank?
 
       column ||= @klass.rollup_column || :created_at
@@ -51,17 +51,21 @@ class Rollup
       elsif !clear
         # if no rollups, compute all intervals
         # if rollups, recompute last interval
-        max_time = Rollup.unscoped.where(name: name, interval: interval).maximum(Utils.time_sql(interval))
         if max_time
-          # for MySQL on Ubuntu 18.04 (and likely other platforms)
-          if max_time.is_a?(String)
-            utc = ActiveSupport::TimeZone["Etc/UTC"]
-            max_time = Utils.date_interval?(interval) ? max_time.to_date : utc.parse(max_time).in_time_zone(time_zone)
-          end
-
-          # aligns perfectly if time zone doesn't change
-          # if time zone does change, there are other problems besides this
           gd_options[:range] = max_time..
+        else
+          max_time = Rollup.unscoped.where(name: name, interval: interval).maximum(Utils.time_sql(interval))
+          if max_time
+            # for MySQL on Ubuntu 18.04 (and likely other platforms)
+            if max_time.is_a?(String)
+              utc = ActiveSupport::TimeZone["Etc/UTC"]
+              max_time = Utils.date_interval?(interval) ? max_time.to_date : utc.parse(max_time).in_time_zone(time_zone)
+            end
+
+            # aligns perfectly if time zone doesn't change
+            # if time zone does change, there are other problems besides this
+            gd_options[:range] = max_time..
+          end
         end
       end
 
