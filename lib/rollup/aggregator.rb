@@ -10,7 +10,7 @@ class Rollup
       column ||= @klass.rollup_column || :created_at
       validate_column(column)
 
-      relation = perform_group(name, column: column, interval: interval, time_zone: time_zone, current: current, last: last, clear: clear, range: nil)
+      relation = perform_group(name, column: column, interval: interval, time_zone: time_zone, current: current, last: last, clear: clear, range: range)
       result = perform_calculation(relation, &block)
 
       dimension_names = set_dimension_names(dimension_names, relation)
