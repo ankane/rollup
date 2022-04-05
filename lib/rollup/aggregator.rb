@@ -34,6 +34,7 @@ class Rollup
 
     def perform_group(name, column:, interval:, time_zone:, current:, last:, clear:, range:)
       raise ArgumentError, "Cannot use last and clear together" if last && clear
+      raise ArgumentError, "Cannot use last and range together" if last && range
 
       time_zone ||= Rollup.time_zone
 

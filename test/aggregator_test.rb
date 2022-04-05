@@ -53,6 +53,13 @@ class AggregatorTest < Minitest::Test
     assert_equal "Cannot use last and clear together", error.message
   end
 
+  def test_last_range
+    error = assert_raises(ArgumentError) do
+      User.rollup("Test", last: 2, range: now.all_day)
+    end
+    assert_equal "Cannot use last and range together", error.message
+  end
+
   def test_current
     create_users
     User.rollup("Test", current: false)
