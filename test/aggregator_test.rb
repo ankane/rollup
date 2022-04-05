@@ -95,6 +95,21 @@ class AggregatorTest < Minitest::Test
     assert_equal expected, Rollup.series("Test")
   end
 
+  def test_range_updates
+    create_users
+    User.rollup("Test")
+
+    create_users
+    User.rollup("Test", range: (now - 1.day).all_day)
+
+    expected = {
+      now.to_date - 2 => 1,
+      now.to_date - 1 => 2,
+      now.to_date => 1
+    }
+    assert_equal expected, Rollup.series("Test")
+  end
+
   def test_range_expanded
     create_users
     User.rollup("Test", range: now...now)
