@@ -95,6 +95,16 @@ class AggregatorTest < Minitest::Test
     assert_equal expected, Rollup.series("Test")
   end
 
+  def test_range_expanded
+    create_users
+    User.rollup("Test", range: now...now)
+
+    expected = {
+      now.to_date => 1
+    }
+    assert_equal expected, Rollup.series("Test")
+  end
+
   def test_range_clear
     error = assert_raises(ArgumentError) do
       User.rollup("Test", range: now.all_day, clear: true)

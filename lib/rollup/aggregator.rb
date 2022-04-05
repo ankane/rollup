@@ -54,6 +54,7 @@ class Rollup
         gd_options[:last] = last
       elsif range
         gd_options[:range] = range
+        gd_options[:expand_range] = true
         gd_options.delete(:current)
       elsif !clear
         # if no rollups, compute all intervals
