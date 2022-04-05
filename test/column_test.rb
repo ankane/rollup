@@ -41,10 +41,10 @@ class ColumnTest < Minitest::Test
   end
 
   def test_no_arel
-    error = assert_raises do
+    error = assert_raises(ActiveRecord::UnknownAttributeReference) do
       User.rollup("Test", column: "(created_at)")
     end
-    assert_equal "Non-attribute argument: (created_at). Use Arel.sql() for known-safe values", error.message
+    assert_equal "Query method called with non-attribute argument(s): \"(created_at)\". Use Arel.sql() for known-safe values.", error.message
   end
 
   def test_rollup_column

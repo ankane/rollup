@@ -8,7 +8,9 @@ class Rollup
       raise "Name can't be blank" if name.blank?
 
       column ||= @klass.rollup_column || :created_at
-      validate_column(column)
+      # Groupdate 6+ validates, but keep this for now for additional safety
+      # no need to quote/resolve column here, as Groupdate handles it
+      column = validate_column(column)
 
       relation = perform_group(name, column: column, interval: interval, time_zone: time_zone, current: current, last: last, clear: clear, range: range)
       result = perform_calculation(relation, &block)
@@ -23,13 +25,15 @@ class Rollup
 
     # basic version of Active Record disallow_raw_sql!
     # symbol = column (safe), Arel node = SQL (safe), other = untrusted
-    # no need to quote/resolve column here, as Groupdate handles it
-    # TODO remove this method when gem depends on Groupdate 6+
+    # matches table.column and column
     def validate_column(column)
-      # matches table.column and column
-      unless column.is_a?(Symbol) || column.is_a?(Arel::Nodes::SqlLiteral) || /\A\w+(\.\w+)?\z/i.match(column.to_s)
-        raise "Non-attribute argument: #{column}. Use Arel.sql() for known-safe values"
+      unless column.is_a?(Symbol) || column.is_a?(Arel::Nodes::SqlLiteral)
+        column = column.to_s
+        unless /\A\w+(\.\w+)?\z/i.match(column)
+          raise ActiveRecord::UnknownAttributeReference, "Query method called with non-attribute argument(s): #{column.inspect}. Use Arel.sql() for known-safe values."
+        end
       end
+      column
     end
 
     def perform_group(name, column:, interval:, time_zone:, current:, last:, clear:, range:)
