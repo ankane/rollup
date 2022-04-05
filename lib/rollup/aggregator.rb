@@ -48,24 +48,22 @@ class Rollup
 
       if last
         gd_options[:last] = last
+      elsif range
+        gd_options[:range] = range
       elsif !clear
-        if range
-          gd_options[:range] = range
-        else
-          # if no rollups, compute all intervals
-          # if rollups, recompute last interval
-          max_time = Rollup.unscoped.where(name: name, interval: interval).maximum(Utils.time_sql(interval))
-          if max_time
-            # for MySQL on Ubuntu 18.04 (and likely other platforms)
-            if max_time.is_a?(String)
-              utc = ActiveSupport::TimeZone["Etc/UTC"]
-              max_time = Utils.date_interval?(interval) ? max_time.to_date : utc.parse(max_time).in_time_zone(time_zone)
-            end
-
-            # aligns perfectly if time zone doesn't change
-            # if time zone does change, there are other problems besides this
-            gd_options[:range] = max_time..
+        # if no rollups, compute all intervals
+        # if rollups, recompute last interval
+        max_time = Rollup.unscoped.where(name: name, interval: interval).maximum(Utils.time_sql(interval))
+        if max_time
+          # for MySQL on Ubuntu 18.04 (and likely other platforms)
+          if max_time.is_a?(String)
+            utc = ActiveSupport::TimeZone["Etc/UTC"]
+            max_time = Utils.date_interval?(interval) ? max_time.to_date : utc.parse(max_time).in_time_zone(time_zone)
           end
+
+          # aligns perfectly if time zone doesn't change
+          # if time zone does change, there are other problems besides this
+          gd_options[:range] = max_time..
         end
       end
 
