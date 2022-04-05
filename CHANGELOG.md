@@ -1,6 +1,7 @@
 ## 0.2.0 (unreleased)
 
 - Added `range` option
+- Dropped support for Active Record < 5.2
 
 ## 0.1.4 (2021-12-15)
 
