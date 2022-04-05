@@ -95,4 +95,10 @@ class AggregatorTest < Minitest::Test
     assert_equal expected, Rollup.series("Test")
   end
 
+  def test_range_clear
+    error = assert_raises(ArgumentError) do
+      User.rollup("Test", range: now.all_day, clear: true)
+    end
+    assert_equal "Cannot use range and clear together", error.message
+  end
 end
