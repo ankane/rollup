@@ -4,7 +4,7 @@ class Rollup
       @klass = klass # or relation
     end
 
-    def rollup(name, column: nil, interval: "day", dimension_names: nil, time_zone: nil, current: true, last: nil, clear: false, range: nil, &block)
+    def rollup(name, column: nil, interval: "day", dimension_names: nil, time_zone: nil, current: nil, last: nil, clear: false, range: nil, &block)
       raise "Name can't be blank" if name.blank?
 
       column ||= @klass.rollup_column || :created_at
@@ -36,7 +36,9 @@ class Rollup
       raise ArgumentError, "Cannot use last and range together" if last && range
       raise ArgumentError, "Cannot use last and clear together" if last && clear
       raise ArgumentError, "Cannot use range and clear together" if range && clear
+      raise ArgumentError, "Cannot use range and current together" if range && !current.nil?
 
+      current = true if current.nil?
       time_zone ||= Rollup.time_zone
 
       gd_options = {
@@ -52,6 +54,7 @@ class Rollup
         gd_options[:last] = last
       elsif range
         gd_options[:range] = range
+        gd_options.delete(:current)
       elsif !clear
         # if no rollups, compute all intervals
         # if rollups, recompute last interval

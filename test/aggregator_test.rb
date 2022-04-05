@@ -101,4 +101,11 @@ class AggregatorTest < Minitest::Test
     end
     assert_equal "Cannot use range and clear together", error.message
   end
+
+  def test_range_current
+    error = assert_raises(ArgumentError) do
+      User.rollup("Test", range: now.all_day, current: false)
+    end
+    assert_equal "Cannot use range and current together", error.message
+  end
 end
