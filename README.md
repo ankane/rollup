@@ -173,6 +173,12 @@ To recalculate the last few intervals, use:
 User.rollup("New users", last: 3)
 ```
 
+To recalculate a time range, use: [unreleased]
+
+```ruby
+User.rollup("New users", range: 1.week.ago.all_week)
+```
+
 To only store data for completed intervals, use:
 
 ```ruby
