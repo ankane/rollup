@@ -11,13 +11,13 @@ Works great with [Ahoy](https://github.com/ankane/ahoy) and [Searchjoy](https://
 Add this line to your application’s Gemfile:
 
 ```ruby
-gem 'rollups'
+gem "rollups"
 ```
 
 For Rails < 6, also add:
 
 ```ruby
-gem 'activerecord-import'
+gem "activerecord-import"
 ```
 
 And run:
