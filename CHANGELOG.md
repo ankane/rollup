@@ -1,4 +1,4 @@
-## 0.2.0 (unreleased)
+## 0.2.0 (2022-04-05)
 
 - Added `range` option
 - Dropped support for Active Record < 5.2
