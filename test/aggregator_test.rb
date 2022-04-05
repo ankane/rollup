@@ -77,4 +77,16 @@ class AggregatorTest < Minitest::Test
     end
     assert_equal error.message, "Name can't be blank"
   end
+
+  def test_range
+    create_users
+    User.rollup("Test", range: 1.day.ago.all_day)
+
+    expected = {
+      now.to_date - 1 => 2
+    }
+
+    assert_equal expected, Rollup.series("Test")
+  end
+
 end
