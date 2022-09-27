@@ -51,4 +51,23 @@ class ColumnTest < Minitest::Test
     Post.create!
     Post.rollup("Test")
   end
+
+  def test_joins
+    user = User.create!(created_at: now - 2.days)
+    user.posts.create!
+    user.posts.create!
+
+    user2 = User.create!(created_at: now - 1.days)
+    user2.posts.create!
+
+    User.create!(created_at: now)
+
+    Post.joins(:user).rollup("Test", column: "users.created_at")
+
+    expected = {
+      now.to_date - 2 => 2,
+      now.to_date - 1 => 1
+    }
+    assert_equal expected, Rollup.series("Test")
+  end
 end
