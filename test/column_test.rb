@@ -61,6 +61,7 @@ class ColumnTest < Minitest::Test
     user2.posts.create!
 
     User.create!(created_at: now)
+    Post.create!
 
     Post.joins(:user).rollup("Test", column: "users.created_at")
 
