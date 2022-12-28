@@ -15,10 +15,11 @@ class Rollup < ActiveRecord::Base
       (defined?(@time_zone) && @time_zone) || Time.zone || "Etc/UTC"
     end
 
-    def series(name, interval: "day", dimensions: {})
+    def series(name, interval: "day", dimensions: {}, time_frame: nil)
       Utils.check_dimensions if dimensions.any?
 
       relation = where(name: name, interval: interval)
+      relation = relation.where(time: time_frame) if time_frame
       relation = relation.where(dimensions: dimensions) if Utils.dimensions_supported?
 
       # use select_all due to incorrect casting with pluck

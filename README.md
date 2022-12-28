@@ -103,6 +103,12 @@ Or any number of minutes or seconds:
 - 1m, 5m, 15m
 - 1s, 30s, 90s
 
+You can also limit the serie to a certain time frame:
+
+```ruby
+Rollup.series("New users", interval: "week", time_frame: Date.today.weeks_ago(4)..Date.today)
+```
+
 Weeks start on Sunday by default. Change this with:
 
 ```ruby
