@@ -12,6 +12,14 @@ class QueryTest < Minitest::Test
     assert_empty Rollup.series("Test", interval: "week")
   end
 
+  def test_series_where
+    create_users
+    User.rollup("Test")
+    expected = {now.to_date - 1 => 1}
+    range = (now.to_date - 1)...now.to_date
+    assert_equal expected, Rollup.where(time: range).series("Test")
+  end
+
   def test_series_missing
     assert_empty Rollup.series("Test")
   end

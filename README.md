@@ -219,6 +219,12 @@ If a series has dimensions, they must match exactly as well
 Rollup.series("Orders by platform and channel", dimensions: {platform: "Web", channel: "Search"})
 ```
 
+Get a specific time range
+
+```ruby
+Rollup.where(time: Date.current.all_year).series("New Users")
+```
+
 ### Multiple Series
 
 *PostgreSQL only*
@@ -239,6 +245,12 @@ Filter by dimensions
 
 ```ruby
 Rollup.where_dimensions(platform: "Web").multi_series("Orders by platform and channel")
+```
+
+Get a specific time range
+
+```ruby
+Rollup.where(time: Date.current.all_year).multi_series("Orders by platform")
 ```
 
 ### Raw Data
