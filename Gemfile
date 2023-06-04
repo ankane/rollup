@@ -8,3 +8,4 @@ gem "activerecord", "~> 7.0.0"
 gem "pg"
 gem "mysql2"
 gem "sqlite3"
+gem "railties", require: false
