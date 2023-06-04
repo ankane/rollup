@@ -1,3 +1,7 @@
+## 0.3.0 (unreleased)
+
+- Dropped support for Ruby < 3 and Active Record < 6.1
+
 ## 0.2.0 (2022-04-05)
 
 - Added `range` option

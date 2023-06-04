@@ -183,16 +183,8 @@ class Rollup
       conflict_target = [:name, :interval, :time]
       conflict_target << :dimensions if Utils.dimensions_supported?
 
-      if ActiveRecord::VERSION::MAJOR >= 6
-        options = Utils.mysql? ? {} : {unique_by: conflict_target}
-        Rollup.unscoped.upsert_all(records, **options)
-      else
-        update = Utils.mysql? ? [:value] : {columns: [:value], conflict_target: conflict_target}
-        Rollup.unscoped.import(records,
-          on_duplicate_key_update: update,
-          validate: false
-        )
-      end
+      options = Utils.mysql? ? {} : {unique_by: conflict_target}
+      Rollup.unscoped.upsert_all(records, **options)
     end
   end
 end
