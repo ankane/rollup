@@ -7,5 +7,6 @@ gem "minitest", ">= 5"
 gem "activerecord", "7.1.0.beta1"
 gem "pg"
 gem "mysql2"
+gem "trilogy"
 gem "sqlite3"
 gem "railties", "7.1.0.beta1", require: false

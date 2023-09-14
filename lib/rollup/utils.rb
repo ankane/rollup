@@ -41,7 +41,7 @@ class Rollup
       end
 
       def mysql?
-        adapter_name =~ /mysql/i
+        adapter_name =~ /mysql|trilogy/i
       end
 
       def sqlite?

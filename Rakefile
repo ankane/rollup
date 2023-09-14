@@ -1,7 +1,7 @@
 require "bundler/gem_tasks"
 require "rake/testtask"
 
-ADAPTERS = %w(postgresql mysql sqlite)
+ADAPTERS = %w(postgresql mysql trilogy sqlite)
 
 ADAPTERS.each do |adapter|
   namespace :test do

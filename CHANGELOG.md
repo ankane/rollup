@@ -1,3 +1,7 @@
+## 0.3.1 (unreleased)
+
+- Added support for Trilogy
+
 ## 0.3.0 (2023-07-02)
 
 - Dropped support for Ruby < 3 and Active Record < 6.1

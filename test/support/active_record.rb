@@ -8,7 +8,11 @@ def postgresql?
 end
 
 def mysql?
-  $adapter == "mysql"
+  $adapter == "mysql" || $adapter == "trilogy"
+end
+
+def trilogy?
+  $adapter == "trilogy"
 end
 
 def sqlite?
@@ -36,6 +40,13 @@ ActiveRecord::Base.logger = logger
 
 if postgresql?
   ActiveRecord::Base.establish_connection adapter: "postgresql", database: "rollup_test"
+elsif trilogy?
+  if ActiveRecord::VERSION::STRING.to_f < 7.1
+    require "trilogy_adapter/connection"
+    ActiveRecord::Base.public_send :extend, TrilogyAdapter::Connection
+  end
+
+  ActiveRecord::Base.establish_connection adapter: "trilogy", database: "rollup_test", host: "127.0.0.1"
 elsif mysql?
   ActiveRecord::Base.establish_connection adapter: "mysql2", database: "rollup_test"
 else
