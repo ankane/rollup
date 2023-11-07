@@ -310,6 +310,21 @@ Rollup stores both dates and times in the `time` column depending on the interva
 - MySQL: `CAST(time AS date)`
 - SQLite: `date(time)`
 
+### Value Precision
+
+The default value column is of type `:float` which might not have the precision you need. If you need a different precision you can change the type of the value column like this
+
+```ruby
+# some_migration.rb
+def up
+  change_column :rollups, :value, :decimal, precision: 24, scale: 2
+end
+
+def down
+  change_column :rollups, :value, :float
+end
+```
+
 ## Examples
 
 - [Ahoy](#ahoy)
