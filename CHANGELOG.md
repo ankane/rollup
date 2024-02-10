@@ -1,6 +1,6 @@
 ## 0.3.2 (unreleased)
 
-- Fixed issue with `time_zone: false`
+- Fixed incorrect rollups with `time_zone: false` when `Rollup.time_zone` has a negative UTC offset
 
 ## 0.3.1 (2023-09-20)
 
