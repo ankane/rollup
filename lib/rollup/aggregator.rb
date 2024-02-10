@@ -43,7 +43,7 @@ class Rollup
       raise ArgumentError, "Cannot use range and current together" if range && !current.nil?
 
       current = true if current.nil?
-      time_zone ||= Rollup.time_zone
+      time_zone = Rollup.time_zone if time_zone.nil?
 
       gd_options = {
         current: current
@@ -68,7 +68,14 @@ class Rollup
           # for MySQL on Ubuntu 18.04 (and likely other platforms)
           if max_time.is_a?(String)
             utc = ActiveSupport::TimeZone["Etc/UTC"]
-            max_time = Utils.date_interval?(interval) ? max_time.to_date : utc.parse(max_time).in_time_zone(time_zone)
+            max_time =
+              if Utils.date_interval?(interval)
+                max_time.to_date
+              else
+                t = utc.parse(max_time)
+                t = t.in_time_zone(time_zone) if time_zone
+                t
+              end
           end
 
           # aligns perfectly if time zone doesn't change
