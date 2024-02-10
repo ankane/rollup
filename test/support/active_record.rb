@@ -77,6 +77,7 @@ ActiveRecord::Schema.define do
     t.string :browser
     t.jsonb :properties if dimensions_supported?
     t.integer :visits
+    t.date :joined_on
     t.timestamps
   end
 end

@@ -15,6 +15,16 @@ class RollupTest < Minitest::Test
     assert_equal 1, rollup.value
   end
 
+  def test_date
+    today = Date.today
+    User.create!(joined_on: today)
+    User.rollup("Test", column: :joined_on, time_zone: false)
+
+    rollup = Rollup.last
+    assert_equal today, rollup.time
+    assert_equal today, Rollup.series("Test").keys.first
+  end
+
   def test_rename
     create_users
     User.rollup("Test")
