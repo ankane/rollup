@@ -1,3 +1,7 @@
+## 0.3.2 (unreleased)
+
+- Fixed issue with `time_zone: false`
+
 ## 0.3.1 (2023-09-20)
 
 - Added support for Trilogy
