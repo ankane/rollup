@@ -4,7 +4,7 @@
 
 Works great with [Ahoy](https://github.com/ankane/ahoy) and [Searchjoy](https://github.com/ankane/searchjoy)
 
-[![Build Status](https://github.com/ankane/rollup/workflows/build/badge.svg?branch=master)](https://github.com/ankane/rollup/actions)
+[![Build Status](https://github.com/ankane/rollup/actions/workflows/build.yml/badge.svg)](https://github.com/ankane/rollup/actions)
 
 ## Installation
 
