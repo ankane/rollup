@@ -36,6 +36,10 @@ else
 end
 ActiveRecord::Base.time_zone_aware_attributes = true
 
+if ActiveRecord::VERSION::STRING.to_f >= 7.2
+  ActiveRecord::Base.attributes_for_inspect = :all
+end
+
 ActiveRecord::Base.logger = logger
 
 if postgresql?
