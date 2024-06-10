@@ -14,12 +14,6 @@ Add this line to your application’s Gemfile:
 gem "rollups"
 ```
 
-For Rails < 6, also add:
-
-```ruby
-gem "activerecord-import"
-```
-
 And run:
 
 ```sh
