@@ -29,7 +29,7 @@ class Rollup
     def validate_column(column)
       unless column.is_a?(Symbol) || column.is_a?(Arel::Nodes::SqlLiteral)
         column = column.to_s
-        unless /\A\w+(\.\w+)?\z/i.match(column)
+        unless /\A\w+(\.\w+)?\z/i.match?(column)
           raise ActiveRecord::UnknownAttributeReference, "Query method called with non-attribute argument(s): #{column.inspect}. Use Arel.sql() for known-safe values."
         end
       end
@@ -119,9 +119,9 @@ class Rollup
 
       # removing starting and ending quotes
       # for simplicity, they don't need to be the same
-      value = value[1..-2] if value.match(/\A["'`].+["'`]\z/)
+      value = value[1..-2] if value.match?(/\A["'`].+["'`]\z/)
 
-      unless value.match(/\A\w+\z/)
+      unless value.match?(/\A\w+\z/)
         raise "Cannot determine dimension name: #{group}. Use the dimension_names option"
       end
 
