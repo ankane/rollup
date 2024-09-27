@@ -11,8 +11,8 @@ Gem::Specification.new do |spec|
   spec.files         = Dir["*.{md,txt}", "{lib}/**/*"]
   spec.require_path  = "lib"
 
-  spec.required_ruby_version = ">= 3"
+  spec.required_ruby_version = ">= 3.1"
 
-  spec.add_dependency "activesupport", ">= 6.1"
+  spec.add_dependency "activesupport", ">= 7"
   spec.add_dependency "groupdate", ">= 6.1"
 end
