@@ -1,3 +1,7 @@
+## 0.4.0 (unreleased)
+
+- Added support for Active Record 8
+
 ## 0.3.2 (2024-02-09)
 
 - Fixed incorrect rollups with `time_zone: false` when `Rollup.time_zone` has a negative UTC offset

@@ -191,6 +191,12 @@ class Rollup
       conflict_target << :dimensions if Utils.dimensions_supported?
 
       options = Utils.mysql? ? {} : {unique_by: conflict_target}
+      if ActiveRecord::VERSION::MAJOR >= 8
+        utc = ActiveSupport::TimeZone["Etc/UTC"]
+        records.each do |v|
+          v[:time] = v[:time].in_time_zone(utc) if v[:time].is_a?(Date)
+        end
+      end
       Rollup.unscoped.upsert_all(records, **options)
     end
   end

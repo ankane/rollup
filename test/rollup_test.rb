@@ -49,7 +49,11 @@ class RollupTest < Minitest::Test
   def test_upsert_date
     create_users
     User.rollup("Test")
-    assert_match "'#{now.to_date}'", $sql.find { |s| s =~ /ON (CONFLICT|DUPLICATE KEY)/i }
+    if ActiveRecord::VERSION::MAJOR >= 8
+      assert_match "'#{now.to_date} 00:00:00'", $sql.find { |s| s =~ /ON (CONFLICT|DUPLICATE KEY)/i }
+    else
+      assert_match "'#{now.to_date}'", $sql.find { |s| s =~ /ON (CONFLICT|DUPLICATE KEY)/i }
+    end
   end
 
   def test_rollup_rollup
