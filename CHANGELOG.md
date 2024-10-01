@@ -1,4 +1,4 @@
-## 0.4.0 (unreleased)
+## 0.4.0 (2024-10-01)
 
 - Added support for Active Record 8
 - Dropped support for Ruby < 3.1 and Active Record < 7
