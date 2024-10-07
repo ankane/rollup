@@ -23,7 +23,7 @@ class Rollup < ActiveRecord::Base
 
       # use select_all due to incorrect casting with pluck
       sql = relation.order(:time).select(Utils.time_sql(interval), :value).to_sql
-      result = connection.select_all(sql).rows
+      result = connection_pool.with_connection { |c| c.select_all(sql) }.rows
 
       Utils.make_series(result, interval)
     end
@@ -35,7 +35,7 @@ class Rollup < ActiveRecord::Base
 
       # use select_all to reduce allocations
       sql = relation.order(:time).select(Utils.time_sql(interval), :value, :dimensions).to_sql
-      result = connection.select_all(sql).rows
+      result = connection_pool.with_connection { |c| c.select_all(sql) }.rows
 
       result.group_by { |r| JSON.parse(r[2]) }.map do |dimensions, rollups|
         {dimensions: dimensions, data: Utils.make_series(rollups, interval)}

@@ -63,4 +63,14 @@ class RollupTest < Minitest::Test
     Rollup.where(name: "Test", interval: "day").rollup("New", interval: "month", time_zone: false)
     assert_equal 1, Rollup.series("New", interval: "month").values[0]
   end
+
+  def test_connection_leasing
+    ActiveRecord::Base.connection_handler.clear_active_connections!
+    assert_nil ActiveRecord::Base.connection_pool.active_connection?
+    ActiveRecord::Base.connection_pool.with_connection do
+      User.rollup("Test")
+      Rollup.series("Test")
+    end
+    assert_nil ActiveRecord::Base.connection_pool.active_connection?
+  end
 end

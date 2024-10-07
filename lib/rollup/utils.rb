@@ -33,7 +33,7 @@ class Rollup
       end
 
       def adapter_name
-        Rollup.connection.adapter_name
+        Rollup.connection_db_config.adapter.to_s
       end
 
       def postgresql?
