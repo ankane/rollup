@@ -1,6 +1,4 @@
 class Rollup
-  cattr_accessor :writing_role
-
   module Model
     attr_accessor :rollup_column
 

@@ -6,6 +6,7 @@ class Rollup < ActiveRecord::Base
   class << self
     attr_accessor :week_start
     attr_writer :time_zone
+    attr_writer :writing_role
   end
   self.week_start = :sunday
 
