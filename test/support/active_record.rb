@@ -29,11 +29,7 @@ ActiveRecord::Migration.verbose = false unless ENV["VERBOSE"]
 Time.zone = sqlite? ? "Etc/UTC" : "Eastern Time (US & Canada)"
 
 # rails does this in activerecord/lib/active_record/railtie.rb
-if ActiveRecord::VERSION::MAJOR >= 7
-  ActiveRecord.default_timezone = :utc
-else
-  ActiveRecord::Base.default_timezone = :utc
-end
+ActiveRecord.default_timezone = :utc
 ActiveRecord::Base.time_zone_aware_attributes = true
 
 if ActiveRecord::VERSION::STRING.to_f >= 7.2
