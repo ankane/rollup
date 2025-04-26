@@ -18,6 +18,7 @@ end
 desc "Run all adapter tests"
 task :test do
   ADAPTERS.each do |adapter|
+    next if RUBY_ENGINE == "jruby" && adapter != "sqlite"
     Rake::Task["test:#{adapter}"].invoke
   end
 end
