@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = "rollups"
-  spec.version       = "0.4.1"
+  spec.version       = "0.5.0"
   spec.summary       = "Rollup time-series data in Rails"
   spec.homepage      = "https://github.com/ankane/rollup"
   spec.license       = "MIT"

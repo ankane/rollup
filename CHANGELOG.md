@@ -1,4 +1,4 @@
-## 0.5.0 (unreleased)
+## 0.5.0 (2025-05-04)
 
 - Dropped support for Ruby < 3.2 and Active Record < 7.1
 
