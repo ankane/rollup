@@ -26,7 +26,7 @@ end
 logger = ActiveSupport::Logger.new(ENV["VERBOSE"] ? STDOUT : nil)
 ActiveRecord::Migration.verbose = false unless ENV["VERBOSE"]
 
-Time.zone = sqlite? ? "Etc/UTC" : "Eastern Time (US & Canada)"
+Time.zone = "Eastern Time (US & Canada)"
 
 # rails does this in activerecord/lib/active_record/railtie.rb
 ActiveRecord.default_timezone = :utc

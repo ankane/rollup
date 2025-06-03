@@ -34,8 +34,6 @@ class IntervalTest < Minitest::Test
   end
 
   def test_quarter
-    skip "Not supported by Groupdate" if sqlite?
-
     assert_interval "quarter"
   end
 
