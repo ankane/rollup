@@ -19,7 +19,9 @@ class Rollup
       records = prepare_result(result, name, dimension_names, interval)
 
       maybe_clear(clear, name, interval) do
-        save_records(records) if records.any?
+        with_writing_role do
+          save_records(records) if records.any?
+        end
       end
     end
 
@@ -181,6 +183,14 @@ class Rollup
         end
       else
         yield
+      end
+    end
+
+    def with_writing_role(&block)
+      if Rollup.writing_role.present?
+        ActiveRecord::Base.connected_to(role: Rollup.writing_role, &block)
+      else
+        block.call
       end
     end
 
