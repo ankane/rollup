@@ -36,7 +36,7 @@ if ActiveRecord::VERSION::STRING.to_f >= 7.2
   ActiveRecord::Base.attributes_for_inspect = :all
 end
 
-if ActiveRecord::VERSION::STRING.to_f >= 8.0
+if ActiveRecord::VERSION::STRING.to_f == 8.0
   ActiveSupport.to_time_preserves_timezone = :zone
 elsif ActiveRecord::VERSION::STRING.to_f == 7.2
   ActiveSupport.to_time_preserves_timezone = true
