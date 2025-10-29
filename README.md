@@ -121,6 +121,16 @@ Time zone objects also work. To see a list of available time zones in Rails, run
 
 See [date storage](#date-storage) for how dates are stored.
 
+### Multiple Databases
+
+Specify a `writing_role` when you want to explicitly switch the database role when writing the rollup to the database.
+
+```ruby
+Rollup.writing_role = :writing
+```
+
+See [ActiveRecord::Base.connected_to](https://guides.rubyonrails.org/active_record_multiple_databases.html#connecting-to-the-database) for more information.
+
 ### Calculations
 
 Rollups use `count` by default. For other calculations, use:
