@@ -6,14 +6,8 @@ gem "rake"
 gem "minitest"
 gem "activerecord", "~> 8.1.0"
 gem "railties", require: false
-
-platform :ruby do
-  gem "pg"
-  gem "mysql2"
-  gem "trilogy"
-  gem "sqlite3"
-end
-
-platform :jruby do
-  gem "sqlite3-ffi"
-end
+gem "pg", platform: :ruby
+gem "mysql2", platform: :ruby
+gem "trilogy", platform: :ruby
+gem "sqlite3", platform: :ruby
+gem "sqlite3-ffi", platform: :jruby
