@@ -43,9 +43,9 @@ Get the series
 ```ruby
 Rollup.series("New users")
 # {
-#   Wed, 01 Jan 2025 => 50,
-#   Thu, 02 Jan 2025 => 100,
-#   Fri, 03 Jan 2025 => 34
+#   Thu, 01 Jan 2026 => 50,
+#   Fri, 02 Jan 2026 => 100,
+#   Sat, 03 Jan 2026 => 34
 # }
 ```
 
