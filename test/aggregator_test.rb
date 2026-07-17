@@ -133,4 +133,37 @@ class AggregatorTest < Minitest::Test
     end
     assert_equal "Cannot use range and current together", error.message
   end
+
+  def test_writing_role_switching
+    connected_to_args = nil
+    ActiveRecord::Base.singleton_class.define_method(:connected_to) do |role:, &block|
+      connected_to_args = role
+      block.call
+    end
+
+    create_users
+    Rollup.writing_role = :writing
+    User.rollup("Test")
+
+    assert_equal :writing, connected_to_args, "Expected connected_to to be called with writing role"
+  ensure
+    ActiveRecord::Base.singleton_class.remove_method(:connected_to)
+    Rollup.writing_role = nil
+  end
+
+  def test_no_writing_role_switching
+    connected_to_called = false
+    ActiveRecord::Base.singleton_class.define_method(:connected_to) do |role:, &block|
+      connected_to_called = true
+      block.call
+    end
+
+    create_users
+    Rollup.writing_role = nil
+    User.rollup("Test")
+
+    refute connected_to_called, "Expected connected_to not to be called when writing_role is nil"
+  ensure
+    ActiveRecord::Base.singleton_class.remove_method(:connected_to)
+  end
 end
